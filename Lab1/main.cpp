@@ -199,61 +199,160 @@ int main()
 {
     int error;
     Student *head = NULL; //указатель на начало списка студентов
+    Student *student = NULL;
+    int action = 0;
+    string name;
+    int age;
+    double scholarship;
+    string nameAfter;
+    string nameBefore;
 
-    addFirst(head, createStudent("Vasya", 17, 6548.11));
-    print(head);
+    while (action != -1)
+    {
+        cout << "Input action (-1 for exit) 1(make student), 2(addFirst), 3(addLast), 4(addAfter), 5(addBefore), 6(deleteByName), 7(print list)" << endl;
 
-    addFirst(head, createStudent("Olya", 20, 7483.12));
-    addLast(head, createStudent("Petya", 19, 15032.07));
-    print(head);
+        if(student != NULL) //если неиспользованный студент есть, выведем подсказку
+        {
+            cout << "Student " << student->name << " created, choose action: ";
+        }
 
-    error = addAfter(head, "Olya", createStudent("Kolya", 16, 4349.87));
-    if(error == 1)
-    {
-        cout << "the list is empty" << endl;
-    }
-    else if (error == 2)
-    {
-        cout << "no such name found" << endl;
-    }
-    print(head);
+        cin >> action;
+        switch (action)
+        {
+            case -1:
+                break;
+            case 1:
+                if(student != NULL)
+                {
+                    delete student;
+                }
+                cout << "Enter student (name, age, scholarship)" << endl;
+                cin >> name >> age >> scholarship;
+                student = createStudent(name, age, scholarship);
+                break;
+            case 2:
+                if(student == NULL) //если студента не создали
+                {
+                    cout << "Make student first" << endl;
+                    break;
+                }
+                addFirst(head, student);
+                student = NULL;
+                print(head);
+                break;
+            case 3:
+                if(student == NULL)
+                {
+                    cout << "Make student first" << endl;
+                    break;
+                }
+                addLast(head, student);
+                student = NULL;
+                print(head);
+                break;
+            case 4:
+                if(student == NULL)
+                {
+                    cout << "Make student first" << endl;
+                    break;
+                }
+                cout << "Input name" << endl;
+                cin >> nameAfter;
+                if (!addAfter(head, nameAfter, student))
+                {
+                    student = NULL;
+                }
+                print(head);
+                break;
+            case 5:
+                if(student == NULL)
+                {
+                    cout << "Make student first" << endl;
+                    break;
+                }
+                cout << "Input name" << endl;
+                cin >> nameBefore;
+                if(!addBefore(head, nameBefore, student))
+                {
+                    student = NULL;
+                }
+                print(head);
+                break;
+            case 6:
+                cout << "Input name" << endl;
+                cin >> name;
+                deleteByName(head, name);
+                print(head);
+                break;
+            case 7:
+                print(head);
+                break;
+            default:
+                cout << "Wrong input" << endl;
+                break;
+        }
 
-    error = deleteByName(head, "Vasya");
-    if(error == 1)
-    {
-        cout << "the list is empty" << endl;
     }
-    else if (error == 2)
-    {
-        cout << "the only elem doesn't have such name" << endl;
-    }
-    else if (error == 3)
-    {
-        cout << "no such name found" << endl;
-    }
-    print(head);
 
-    error = addBefore(head, "Petya", createStudent("Zhenya", 18, 3278.43));
-    if(error == 1)
+    if (student != NULL) //если создали студента и не использовали
     {
-        cout << "the list is empty" << endl;
+        delete student;
     }
-    else if (error == 2)
-    {
-        cout << "the only elem doesn't have such name" << endl;
-    }
-    else if (error == 3)
-    {
-        cout << "no such name found" << endl;
-    }
-    print(head);
-
-//    addAfter(head, "Kolya", createStudent("Oleg", 20, 38940.90));
-//    print(head);
 
     deleteStudents(head); //удаляем список
 
     print(head);
+
+//    addFirst(head, createStudent("Vasya", 17, 6548.11));
+//    print(head);
+//
+//    addFirst(head, createStudent("Olya", 20, 7483.12));
+//    addLast(head, createStudent("Petya", 19, 15032.07));
+//    print(head);
+//
+//    error = addAfter(head, "Olya", createStudent("Kolya", 16, 4349.87));
+//    if(error == 1)
+//    {
+//        cout << "the list is empty" << endl;
+//    }
+//    else if (error == 2)
+//    {
+//        cout << "no such name found" << endl;
+//    }
+//    print(head);
+//
+//    error = deleteByName(head, "Vasya");
+//    if(error == 1)
+//    {
+//        cout << "the list is empty" << endl;
+//    }
+//    else if (error == 2)
+//    {
+//        cout << "the only elem doesn't have such name" << endl;
+//    }
+//    else if (error == 3)
+//    {
+//        cout << "no such name found" << endl;
+//    }
+//    print(head);
+//
+//    error = addBefore(head, "Petya", createStudent("Zhenya", 18, 3278.43));
+//    if(error == 1)
+//    {
+//        cout << "the list is empty" << endl;
+//    }
+//    else if (error == 2)
+//    {
+//        cout << "the only elem doesn't have such name" << endl;
+//    }
+//    else if (error == 3)
+//    {
+//        cout << "no such name found" << endl;
+//    }
+//    print(head);
+//
+//    addAfter(head, "Kolya", createStudent("Oleg", 20, 38940.90));
+//    print(head);
 
     return 0;
 }
